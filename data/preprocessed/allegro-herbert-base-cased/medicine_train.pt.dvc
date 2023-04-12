@@ -1,0 +1,4 @@
+outs:
+- md5: d4625f19fc6221dd998138b281909aa6
+  size: 2371197
+  path: medicine_train.pt

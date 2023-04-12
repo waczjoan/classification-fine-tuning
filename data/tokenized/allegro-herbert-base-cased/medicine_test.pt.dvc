@@ -1,0 +1,4 @@
+outs:
+- md5: ece0b845efed5f52d6bc16f228f3cbdf
+  size: 4097665
+  path: medicine_test.pt
