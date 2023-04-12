@@ -1,0 +1,4 @@
+outs:
+- md5: b90de93569904fa70ee4e08586285dc3
+  size: 305704
+  path: medicine.sentence.dev.txt

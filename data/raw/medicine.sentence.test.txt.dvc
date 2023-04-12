@@ -1,0 +1,4 @@
+outs:
+- md5: 7da9bdd41ab72027278526fb030260b3
+  size: 306561
+  path: medicine.sentence.test.txt
