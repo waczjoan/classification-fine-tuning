@@ -1,0 +1,99 @@
+schema: '2.0'
+stages:
+  text_embeddings@MiniLM:
+    cmd: python experiments/scripts/tokenize_data.py --model_name allegro/herbert-base-cased
+      --dataset_name medicine --preprocessed_files_dir data/medicine/preprocessed
+      --tokenized_files_dir data/medicine/tokenized
+    deps:
+    - path: data/medicine/raw
+      md5: 949a3e7eb5962924d8ea477f35f22e5a.dir
+      size: 3062078
+      nfiles: 3
+    - path: experiments/scripts/tokenize_data.py
+      md5: 22ef4d05d0caaf19a12c70e721ad4755
+      size: 2602
+    - path: opinion_mod/datamodules/preprocess.py
+      md5: a7e117a28930acffe71c5281d80bc63d
+      size: 1490
+    - path: opinion_mod/tokenizer/tokenizer.py
+      md5: b3b9f7abbdd2b902068ebd9248906113
+      size: 489
+    outs:
+    - path: data/medicine/preprocessed/LabelEncoder.json
+      md5: 831ccec9847698ebf0fc05747c811311
+      size: 87
+    - path: data/medicine/preprocessed/dev.pt
+      md5: 302d3dd426686307e8b7164699285ed7
+      size: 295855
+    - path: data/medicine/preprocessed/test.pt
+      md5: ea74259797d7a21bbb8020535ea837a9
+      size: 296687
+    - path: data/medicine/preprocessed/train.pt
+      md5: b1b94544a57e2f53c6b4535728662b19
+      size: 2371119
+    - path: data/medicine/tokenized/allegro-herbert-base-cased/dev.pt
+      md5: f374f1c84421f5a006331f979004c653
+      size: 4086307
+    - path: data/medicine/tokenized/allegro-herbert-base-cased/test.pt
+      md5: 6c7a6d6ad022bf1936172f90dcfef879
+      size: 4097635
+    - path: data/medicine/tokenized/allegro-herbert-base-cased/train.pt
+      md5: 0d2a976a481f6c17c1a17517f9c76a04
+      size: 32766307
+  text_embeddings@allegro_herbert:
+    cmd: python experiments/scripts/tokenize_data.py --model_name allegro/herbert-base-cased
+      --dataset_name medicine --preprocessed_files_dir data/medicine/preprocessed
+      --tokenized_files_dir data/medicine/tokenized
+    deps:
+    - path: data/medicine/raw
+      md5: 949a3e7eb5962924d8ea477f35f22e5a.dir
+      size: 3062078
+      nfiles: 3
+    - path: experiments/scripts/tokenize_data.py
+      md5: 22ef4d05d0caaf19a12c70e721ad4755
+      size: 2602
+    - path: opinion_mod/datamodules/preprocess.py
+      md5: a7e117a28930acffe71c5281d80bc63d
+      size: 1490
+    - path: opinion_mod/tokenizer/tokenizer.py
+      md5: b3b9f7abbdd2b902068ebd9248906113
+      size: 489
+    outs:
+    - path: data/medicine/preprocessed/LabelEncoder.json
+      md5: 831ccec9847698ebf0fc05747c811311
+      size: 87
+    - path: data/medicine/preprocessed/dev.pt
+      md5: 302d3dd426686307e8b7164699285ed7
+      size: 295855
+    - path: data/medicine/preprocessed/test.pt
+      md5: ea74259797d7a21bbb8020535ea837a9
+      size: 296687
+    - path: data/medicine/preprocessed/train.pt
+      md5: b1b94544a57e2f53c6b4535728662b19
+      size: 2371119
+    - path: data/medicine/tokenized/allegro-herbert-base-cased/dev.pt
+      md5: f374f1c84421f5a006331f979004c653
+      size: 4086307
+    - path: data/medicine/tokenized/allegro-herbert-base-cased/test.pt
+      md5: 6c7a6d6ad022bf1936172f90dcfef879
+      size: 4097635
+    - path: data/medicine/tokenized/allegro-herbert-base-cased/train.pt
+      md5: 0d2a976a481f6c17c1a17517f9c76a04
+      size: 32766307
+  classification@allegro_herbert:
+    cmd: python experiments/scripts/transformer_classification.py --model_name allegro_herbert
+      --hparams_path experiments/configs/models.yaml
+    deps:
+    - path: experiments/scripts/transformer_classification.py
+      md5: ba7ef9a57b447a1f58acb249e92abd8c
+      size: 1422
+    - path: opinion_mod/datamodules/medicine.py
+      md5: 9e43b2f7921c6c8c305b027da2ea289b
+      size: 2349
+    - path: opinion_mod/models/transformer_finetuning.py
+      md5: d4362d90ddf0b4850f9cbd3f71cb9077
+      size: 1047
+    outs:
+    - path: output/medicine/metrics/allegro-herbert-base-cased/results.pt
+      md5: 6b34d0ca6ae29db4eacb1eb4e43f3ff5
+      size: 999

@@ -1,4 +1,5 @@
 """Prepare dataset to processed. Split texts and labels."""
+import os
 import json
 from pathlib import Path
 
@@ -6,7 +7,14 @@ from sklearn import preprocessing
 import torch
 
 
-def label_encoder_default():
+def label_encoder_default(
+    out_dir: Path
+):
+    label_encoder_file_out = Path(os.path.join(
+        out_dir,
+        "LabelEncoder.json"
+    ))
+
     labels = [
         'z_minus_m',
         'z_zero',
@@ -21,7 +29,6 @@ def label_encoder_default():
     for i in range(len(classes_)):
         y_map[i] = classes_[i]
 
-    label_encoder_file_out = Path("data/preprocessed/LabelEncoder.json")
     label_encoder_file_out.parent.mkdir(parents=True, exist_ok=True)
     with label_encoder_file_out.open("w") as fout:
         json.dump(obj=y_map, fp=fout, indent=4)
@@ -50,7 +57,7 @@ def prepare(
 
     texts, labels = splitting(lines)
 
-    le = label_encoder_default()
+    le = label_encoder_default(out_file.parent)
     labels = le.transform(labels)
 
     out_file.parent.mkdir(parents=True, exist_ok=True)

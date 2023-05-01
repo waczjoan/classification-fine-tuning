@@ -1,0 +1,21 @@
+default_training_params: &default_training_params
+  max_epochs: 2
+  verbose: False
+
+medicine_allegro_datamodule_params: &default_datamodule_params
+  batch_size: 512
+  data_dir: "data/medicine/tokenized/allegro-herbert-base-cased"
+  metric_files_dir: "output/medicine/metrics/allegro-herbert-base-cased"
+
+allegro_params: &default_mlp_params
+  kwargs:
+    model_name: "allegro/herbert-base-cased"
+    output_dim: 4
+
+
+allegro_herbert:
+  model:
+    <<: *default_training_params
+    <<: *default_mlp_params
+  datamodule:
+    <<: *default_datamodule_params

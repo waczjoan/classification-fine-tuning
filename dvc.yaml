@@ -1,0 +1,48 @@
+stages:
+  text_embeddings:
+    foreach:
+      allegro_herbert:
+        model_name: allegro/herbert-base-cased
+        model_file_name: allegro-herbert-base-cased
+        dataset_name: medicine
+    do:
+      wdir: .
+      cmd: >-
+        python experiments/scripts/tokenize_data.py
+        --model_name ${item.model_name}
+        --dataset_name ${item.dataset_name}
+        --preprocessed_files_dir data/${item.dataset_name}/preprocessed
+        --tokenized_files_dir data/${item.dataset_name}/tokenized
+      deps:
+        - experiments/scripts/tokenize_data.py
+        - opinion_mod/datamodules/preprocess.py
+        - opinion_mod/tokenizer/tokenizer.py
+        - data/${item.dataset_name}/raw
+      outs:
+        - data/${item.dataset_name}/tokenized/${item.model_file_name}/train.pt
+        - data/${item.dataset_name}/tokenized/${item.model_file_name}/test.pt
+        - data/${item.dataset_name}/tokenized/${item.model_file_name}/dev.pt
+        - data/${item.dataset_name}/preprocessed/train.pt
+        - data/${item.dataset_name}/preprocessed/test.pt
+        - data/${item.dataset_name}/preprocessed/dev.pt
+        - data/${item.dataset_name}/preprocessed/LabelEncoder.json
+
+  classification:
+    foreach:
+      allegro_herbert:
+        dataset_name: medicine
+        model_name: allegro_herbert
+        model_file_name: allegro-herbert-base-cased
+        hparams_path: experiments/configs/models.yaml
+    do:
+      wdir: .
+      cmd: >-
+        python experiments/scripts/transformer_classification.py
+        --model_name ${item.model_name}
+        --hparams_path ${item.hparams_path}
+      deps:
+        - experiments/scripts/transformer_classification.py
+        - opinion_mod/datamodules/medicine.py
+        - opinion_mod/models/transformer_finetuning.py
+      outs:
+        - output/${item.dataset_name}/metrics/${item.model_file_name}/results.pt

@@ -27,13 +27,13 @@ from opinion_mod.tokenizer.tokenizer import tokenize_text
     "--preprocessed_files_dir",
     help="Directory to preprocessed data.",
     type=click.Path(exists=True, path_type=Path),
-    default=Path("data/preprocessed"),
+    default=Path("data/medicine/preprocessed"),
 )
 @click.option(
     "--tokenized_files_dir",
     help="Directory to tokenized data.",
     type=click.Path(exists=True, path_type=Path),
-    default=Path("data/tokenized"),
+    default=Path("data/medicine/tokenized"),
 )
 def main(
     model_name: str,
@@ -70,13 +70,12 @@ def tokenize_data(
 
         out_file = Path(os.path.join(
             preprocessed_file_dir,
-            model_name.replace('/', '-'),
-            f"{dataset_name}_{dataset_split}.pt"
+            f"{dataset_split}.pt"
         ))
 
-        if ~check_if_file_exists(out_file):
+        if ~out_file.is_file():
             prepare(
-                f'data/raw/{dataset_name}.sentence.{dataset_split}.txt',
+                f'data/{dataset_name}/raw/{dataset_split}.txt',
                 out_file=out_file
             )
         texts, labels = torch.load(out_file)
@@ -87,20 +86,11 @@ def tokenize_data(
         }
 
         dataset_file = Path(os.path.join(
-            tokenized_files_dir,
-            model_name.replace('/', '-'),
-            f"{dataset_name}_{dataset_split}.pt"
+            tokenized_files_dir, model_name.replace('/', '-'),
+            f"{dataset_split}.pt"
         ))
         dataset_file.parent.mkdir(parents=True, exist_ok=True)
         torch.save(dataset, dataset_file)
-
-
-def check_if_file_exists(
-    file: str
-):
-    """Check if file exists. Return True if file exists."""
-    path = Path(file)
-    return path.is_file()
 
 
 if __name__ == "__main__":
