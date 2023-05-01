@@ -65,7 +65,6 @@ def tokenize_data(
     tokenized_files_dir: Dir to tokenized texts.
 
     """
-
     for dataset_split in tqdm(["train", "dev", "test"]):
 
         out_file = Path(os.path.join(

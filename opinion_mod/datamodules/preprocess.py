@@ -10,6 +10,7 @@ import torch
 def label_encoder_default(
     out_dir: Path
 ):
+    """Default label encoder used to opinion classification task."""
     label_encoder_file_out = Path(os.path.join(
         out_dir,
         "LabelEncoder.json"
@@ -37,7 +38,7 @@ def label_encoder_default(
 
 
 def splitting(lines):
-    """Split line to text and label"""
+    """Split line to text and label."""
     texts = []
     labels = []
     for i in range(len(lines)):

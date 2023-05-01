@@ -1,3 +1,4 @@
+"""Implementation of Datasets and Datamodule."""
 import os
 from pathlib import Path
 
@@ -7,16 +8,21 @@ import torch
 
 
 class CustomTextDataset(Dataset):
+    """Datasets of tokenized data used to task."""
+
     def __init__(self, x, labels, out_dict: bool = True):
+        """Init."""
         self.labels = labels
         self.x = x
         self.device = 'cuda'
         self.out_dict = out_dict
 
     def __len__(self):
+        """Len of the dataset."""
         return len(self.labels)
 
     def __getitem__(self, idx):
+        """Get item with idx index."""
         label = self.labels[idx]
         data = self.x[idx]
 
@@ -31,11 +37,14 @@ class CustomTextDataset(Dataset):
 
 
 class DataModuleMedicine(pl.LightningDataModule):
+    """Datamodule used to evaluate task."""
+
     def __init__(
         self,
         token_dir: Path,
         batch_size: int = 128,
     ):
+        """Init."""
         super().__init__()
         self.token_dir = token_dir
 
@@ -48,6 +57,7 @@ class DataModuleMedicine(pl.LightningDataModule):
         self.test_data = None
 
     def setup(self, stage=None):
+        """Setup."""
         data = {}
         labels = {}
         for dataset_split in ["train", "dev", "test"]:
@@ -64,16 +74,22 @@ class DataModuleMedicine(pl.LightningDataModule):
         self.test_data = CustomTextDataset(data['test'], labels['test'])
 
     def train_dataloader(self):
-        """ Generating train_dataloader."""
-        return DataLoader(self.train_data,
-                          batch_size=self.batch_size)
+        """Generating train_dataloader."""
+        return DataLoader(
+            self.train_data,
+            batch_size=self.batch_size
+        )
 
     def dev_dataloader(self):
-        """ Generating val_dataloader."""
-        return DataLoader(self.valid_data,
-                          batch_size=self.batch_size)
+        """Generating val_dataloader."""
+        return DataLoader(
+            self.valid_data,
+            batch_size=self.batch_size
+        )
 
     def test_dataloader(self):
-        """ Generating test_dataloader."""
-        return DataLoader(self.test_data,
-                          batch_size=self.batch_size)
+        """Generating test_dataloader."""
+        return DataLoader(
+            self.test_data,
+            batch_size=self.batch_size
+        )

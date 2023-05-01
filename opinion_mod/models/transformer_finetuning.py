@@ -12,7 +12,6 @@ def transformer_classification(
     model_params: Dict,
 ):
     """Classification task. Load data nad train model. Save best model."""
-
     model = AutoModelForSequenceClassification.from_pretrained(
         model_params["kwargs"]['model_name'],
         num_labels=model_params["kwargs"]['output_dim']
