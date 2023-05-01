@@ -94,10 +94,10 @@ stages:
       md5: d4362d90ddf0b4850f9cbd3f71cb9077
       size: 1047
     outs:
-    - path: output/checkpoints/allegro-herbert-base-cased
-      md5: 86c95a182a15f98d4cfe865bf56e1d9c.dir
-      size: 4480689674
-      nfiles: 23
+    - path: output/checkpoints/allegro-herbert-base-cased/best
+      md5: cb2f63d8b3530ac8a04128765ac2035e.dir
+      size: 1493559668
+      nfiles: 7
     - path: output/medicine/metrics/allegro-herbert-base-cased/results.pt
-      md5: d4896657e97bcb3044557e0a0a1b09e4
+      md5: 8714cbea1ce48e179536e09eb2e02d05
       size: 999
