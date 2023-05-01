@@ -46,3 +46,4 @@ stages:
         - opinion_mod/models/transformer_finetuning.py
       outs:
         - output/${item.dataset_name}/metrics/${item.model_file_name}/results.pt
+        - output/checkpoints/${item.model_file_name}/best
